@@ -1,0 +1,21 @@
+The dictionary Junior shows a schedule for a junior year semester. The key is the course name and the value is the number of credits. 
+Find the total number of credits taken this semester and assign it to the variable credits. Do not hardcode this – use dictionary accumulation!
+
+Junior = {'SI 206':4, 'SI 310':4, 'BL 300':3, 'TO 313':3, 'BCOM 350':1, 'MO 300':3}
+credits = 0
+for n in Junior.values():
+    credits = credits + n
+
+
+Create the dictionary characters that shows each character from the string sally and its frequency. 
+Then, find the most frequent letter based on the dictionary. Assign this letter to the variable best_char.
+sally = "sally sells sea shells by the sea shore"
+characters = {}
+for n in sally:
+    if n in characters:
+        characters[n]+= 1
+    else:
+        characters[n]=1
+print(characters)
+best_char = sorted(characters.items(), key=lambda x: x[1])[-1][0]
+
