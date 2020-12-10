@@ -1,0 +1,10 @@
+How to find mean in pyhton
+
+def findingMean(list):
+    sortedList = sorted(list)
+    if len(sortedList) % 2 != 0:
+        mean = sortedList[len(sortedList)//2]
+        return mean
+    else:
+        mean = (sortedList[len(sortedList)//2-1]+sortedList[len(sortedList)//2])/2
+        return mean
