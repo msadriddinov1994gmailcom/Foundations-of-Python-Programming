@@ -19,3 +19,14 @@ for n in sally:
 print(characters)
 best_char = sorted(characters.items(), key=lambda x: x[1])[-1][0]
 
+Write a function called change that takes any string, adds “Nice to meet you!” to the end of the argument given, and returns that new string.
+
+def change(x):
+    go = x + "Nice to meet you!"
+    return go
+
+Write a function, accum, that takes a list of integers as input and returns the sum of those integers.
+
+def accum(x):
+    return sum(x)
+    
