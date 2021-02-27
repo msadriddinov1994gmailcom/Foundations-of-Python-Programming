@@ -37,3 +37,29 @@ for train_incide, test_incide in nFold.split(X):
     y_predictedL = logisticModel.predict(X_test)
     L.append((('Accuracy', accuracy_score(y_test, y_predictedL)), ('Precision', precision_score(y_test, y_predictedL)),('Recall', recall_score(y_test, y_predictedL)), ('F1', f1_score(y_test, y_predictedL))))
 dic = {'gini':G, 'entropy':E, 'LOgistic':L}   
+
+#Printing best parameters and scores
+
+import pandas as pd
+import numpy as np
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import GridSearchCV
+
+data = pd.read_csv('titanic.csv')
+data['Sex'] = data['Sex']=='male'
+X = data[['Pclass', 'Sex', 'Age', 'Siblings/Spouses','Parents/Children', 'Fare']].values
+y = data['Survived'].values
+
+param_grid = {
+    'max_depth':[5,15,25],
+    'min_samples_leaf':[3,10],
+    'max_leaf_nodes': [10,20,35,50]
+}
+
+for model in ['gini', 'entropy']:
+    print(model)
+    modelT = DecisionTreeClassifier(criterion=model)
+    gs = GridSearchCV(modelT, param_grid, scoring='f1', cv=5)
+    gs.fit(X, y)
+    print('Best Parameter', gs.best_params_)
+    print('Best Score', gs.best_score_)
