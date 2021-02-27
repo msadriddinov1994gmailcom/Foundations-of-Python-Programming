@@ -1,0 +1,39 @@
+import pandas as pd
+import numpy as np
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import KFold
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
+logisticModel = LogisticRegression()
+nFold = KFold(n_splits=5, shuffle=True)
+treeModelG = DecisionTreeClassifier(criterion='gini')
+treeModelE = DecisionTreeClassifier(criterion='entropy')
+
+data = pd.read_csv('titanic.csv')
+data['Sex'] = data['Sex'] == 'male'
+X = data[['Pclass', 'Sex', 'Age', 'Siblings/Spouses','Parents/Children', 'Fare']].values
+y = data['Survived'].values
+
+G = []
+E = []
+L = []
+
+for train_incide, test_incide in nFold.split(X):
+        
+    X_train, X_test = X[train_incide], X[test_incide]
+    y_train, y_test = y[train_incide], y[test_incide]
+    
+    treeModelG.fit(X_train, y_train)
+    y_predictedG = treeModelG.predict(X_test)
+    G.append((('Accuracy', accuracy_score(y_test, y_predictedG)), ('Precision', precision_score(y_test, y_predictedG)),('Recall', recall_score(y_test, y_predictedG)), ('F1', f1_score(y_test, y_predictedG))))
+    
+    treeModelE.fit(X_train, y_train)
+    y_predictedE = treeModelE.predict(X_test)
+    E.append((('Accuracy', accuracy_score(y_test, y_predictedE)), ('Precision', precision_score(y_test, y_predictedE)),('Recall', recall_score(y_test, y_predictedE)), ('F1', f1_score(y_test, y_predictedE))))
+    
+    
+    logisticModel.fit(X_train, y_train)
+    y_predictedL = logisticModel.predict(X_test)
+    L.append((('Accuracy', accuracy_score(y_test, y_predictedL)), ('Precision', precision_score(y_test, y_predictedL)),('Recall', recall_score(y_test, y_predictedL)), ('F1', f1_score(y_test, y_predictedL))))
+dic = {'gini':G, 'entropy':E, 'LOgistic':L}   
